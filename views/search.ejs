@@ -1,0 +1,53 @@
+<%- include("partials/header.ejs") %>
+    <div class="heading">
+        <h2 id="brand">Your Book Notes</h2>
+        <form id="search-bar" action="/search" method="post">
+            <input type="text" name="book" placeholder="Search for a book ">
+            <button type="submit" class="btn">Submit</button>
+        </form>
+        <% if (locals.searchQuery) { %>
+            <% searchQuery.forEach(element=> { %>
+                <div class="card">
+                    <% if(element.cover_i) { %>
+                        <span> <img src="https://covers.openlibrary.org/b/id/ <%= element.cover_i %> -M.jpg" alt="Book
+                            Cover
+                            image"> </span>
+                        <% } else { %>
+                            <span> <img src="./images/avatar_book.png" alt="Book
+                                Cover
+                                image"> </span>
+                            <% } %>
+
+                                <div class="details">
+                                    <h1>
+                                        <%= element.title %>
+                                    </h1>
+                                    <% if(element.author_name) { %>
+                                        <h3>Author Name: <%= element.author_name.join(",")%>
+                                                <% } %>
+                                        </h3>
+                                        <span>Published Year: <%= element.first_publish_year %></span>
+                                        <form action="/addbook" method="post">
+                                            <input type="hidden" name="book" value=' <%=JSON.stringify(element) %>'>
+                                            <button class="btn">Add This Book</button>
+                                        </form>
+                                </div>
+
+                </div>
+                <% }); %>
+                    <% } else { %>
+                        <% if(locals.error) { %>
+                            <p>
+                                <%= error %>
+                            </p>
+                            <% } else { %>
+                                <p>search for any book you have read</p>
+                                <% } %>
+                                    <%} %>
+    </div>
+
+
+
+
+
+    <%- include("partials/footer.ejs") %>

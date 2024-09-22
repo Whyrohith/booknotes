@@ -1,0 +1,60 @@
+#search-bar input[type=text] {
+    padding: 6px;
+    border: none;
+    margin-top: 8px;
+    margin-right: 16px;
+    font-size: 17px;
+    margin-bottom: 10px;
+    width: auto;
+}
+
+.btn {
+    padding: 6px;
+    border-radius: 3%;
+    border: none;
+    background-color: #ECDFCC;
+    color: #181C14;
+}
+
+#brand {
+    margin-bottom: 20px;
+    color: #ECDFCC;
+}
+
+.card {
+    padding: 10px;
+    margin: 10px;
+    color: #ECDFCC;
+    display: flex;
+    gap: 20px;
+    width: auto;
+    flex-wrap: wrap;
+}
+
+p {
+    padding: 20px;
+    color: #ECDFCC;
+}
+
+.card>h1 {
+    border-bottom: 3px solid whitesmoke;
+}
+
+.card>img {
+    float: left;
+}
+
+.details>button {
+    display: block;
+}
+
+.details {
+    display: flex;
+    flex-direction: column;
+    justify-content: space-evenly;
+}
+
+#sort-options>a {
+    text-decoration: none;
+    margin-left: 20px;
+}

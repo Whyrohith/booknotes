@@ -1,1 +1,51 @@
-<% include('partials/header.ejs') %>
+<%- include("partials/header.ejs") %>
+    <div class="heading">
+        <h1>Your Book Notes</h1>
+        <p>Summary about You</p>
+        <div id="sort-options">
+            <p>Sorted options</p>
+            <a href="/search" class="btn"> Add a book</a>
+        </div>
+        <div id="books">
+            <% if(locals.books) {%>
+                <% books.forEach((element)=> { %>
+                    <div class="card">
+                        <% if(element.cover_i) { %>
+                            <span> <img src="https://covers.openlibrary.org/b/id/ <%= element.cover_i %> -M.jpg" alt="Book
+                                Cover
+                                image"> </span>
+                            <% } else { %>
+                                <span> <img src="./images/avatar_book.png" alt="Book
+                                    Cover
+                                    image"> </span>
+                                <% } %>
+
+                                    <div class="details">
+                                        <h1>
+                                            <%= element.title %>
+                                        </h1>
+                                        <h3>Author Name: <%= element.author_name;%>
+                                        </h3>
+                                        <span>Published Year: <%= element.pub_date %></span>
+                                        <span>Date read: <%= element.date_read.toISOString().split('T')[0]; %>
+                                        </span>
+                                        <form action="/viewnotes" method="post">
+                                            <input type="hidden" name="notes" value=' <%=JSON.stringify(element) %>'>
+                                            <button class="btn"> View Notes</button>
+                                        </form>
+                                    </div>
+
+                    </div>
+                    <% }); %>
+                        <% } else { %>
+                            <% if(locals.error) { %>
+                                <p>
+                                    <%= error %>
+                                </p>
+                                <% } else { %>
+                                    <p>Add a book to show</p>
+                                    <% } %>
+                                        <%} %>
+        </div>
+
+        <%- include("partials/footer.ejs") %>

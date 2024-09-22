@@ -1,0 +1,37 @@
+.page {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    height: auto;
+    gap: 20px;
+}
+
+.details>* {
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+    color: #ECDFCC;
+}
+
+.container {
+    display: flex;
+    height: 100vh;
+    align-items: center;
+    justify-content: space-around;
+    padding: 30px;
+}
+
+label {
+    margin-top: 20px;
+}
+
+.details>form>button {
+    margin-top: 20px;
+    border-radius: 5px;
+    padding: 10px;
+
+}
+
+.details>form>input {
+    padding: 10px;
+}

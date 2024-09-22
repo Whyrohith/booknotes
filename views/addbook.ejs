@@ -1,0 +1,50 @@
+<%- include("partials/header.ejs") %>
+    <div class="container">
+        <div class="page">
+            <% if(element.cover_i) { %>
+                <span> <img src="https://covers.openlibrary.org/b/id/ <%= element.cover_i %> -M.jpg" %>
+                    alt="Book
+                    Cover
+                    image"> </span>
+                <% } else { %>
+                    <span> <img src="./images/avatar_book.png" %> alt="Book
+                        Cover
+                        image"> </span>
+                    <% } %>
+
+                        <div class="details">
+                            <h1>
+                                <%= element.title %>
+                            </h1>
+                            <h3>Author Name: <%= element.author_name;%>
+                            </h3>
+                            <span>Published Year: <%= element.pub_date %></span>
+                            <form action="/notes" method="post">
+                                <input type="hidden" name="book" value=' <%=JSON.stringify(element) %>'>
+                                <label for="date">Enter the date you read this book </label>
+                                <input type="date" name="date">
+                                <label for="rating">How strongly you recomend it</label>
+                                <input type="number" name="rating" id="rating" min="0" max="5">
+
+                                <label for="summary">Summary</label>
+                                <textarea name="summary" id="summary" rows="4" cols="50"
+                                    placeholder="Enter your summary here..."></textarea>
+
+                                <input type="hidden" name="book_id" value=<%=element.id %>>
+
+                                <label for="notes">Notes for this book</label>
+                                <textarea name="notes" id="notes" rows="4" cols="50"
+                                    placeholder="Enter your notes here..."></textarea>
+
+
+                                <button class="btn">Submit</button>
+                            </form>
+                        </div>
+        </div>
+    </div>
+
+
+
+
+
+    <%- include("partials/footer.ejs") %>
