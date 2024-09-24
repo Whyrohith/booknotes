@@ -46,3 +46,14 @@ main {
     justify-content: center;
     align-items: center
 }
+
+#sort-options>div {
+    display: flex;
+    gap: 10px;
+    align-items: center;
+    justify-content: flex-start;
+}
+
+a {
+    text-decoration: none;
+}

@@ -22,29 +22,27 @@
                         </div>
         </div>
         <div class="form">
-            <form action="/notes" method="post">
+            <form action="/update/<%=element.id%>" method="post">
                 <input type="hidden" name="book" value=' <%=JSON.stringify(element) %>'>
                 <label for="date">Enter the date you read this book </label>
-                <input type="date" name="date">
+                <input type="date" name="date" value="<%= element.date_read %>">
                 <label for="rating">How strongly you recomend it</label>
-                <input type="number" name="rating" id="rating" min="0" max="5">
+                <input type="number" name="rating" id="rating" min="0" max="5" value="<%=element.user_rating%>">
 
                 <label for="summary">Summary</label>
                 <textarea class="editor" name="summary" id="summary" rows="4" cols="50"
-                    placeholder="Enter your summary here..."></textarea>
+                    placeholder="Enter Your summary here......."><%= element.summary %></textarea>
 
                 <input type="hidden" name="book_id" value=<%=element.id %>>
 
                 <label for="notes">Notes for this book</label>
                 <textarea class="editor" name="notes" id="notes" rows="4" cols="50"
-                    placeholder="Enter your notes here..."></textarea>
+                    placeholder="Enter Your notes here......."><%= element.notes %></textarea>
 
 
                 <button class="btn">Submit</button>
             </form>
         </div>
-
-
     </div>
 
 

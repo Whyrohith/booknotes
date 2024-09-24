@@ -1,10 +1,32 @@
 <%- include("partials/header.ejs") %>
     <div class="heading">
         <h1>Your Book Notes</h1>
-        <p>Summary about You</p>
+        <p>This Book Notes app helps you keep track of the books you’ve read. You can store details such as the date you
+            read them, your rating, and the best parts of the book in your own words as personal notes.
+        </p>
         <div id="sort-options">
-            <p>Sorted options</p>
-            <a href="/search" class="btn"> Add a book</a>
+            <div>
+                <p>Filter the books by</p>
+                <!-- Filter by name -->
+                <form action="/filter" method="post">
+                    <input type="hidden" name="filter" value="name">
+                    <button class="btn" type="submit">Name</button>
+                </form>
+                <!-- Filter by rating -->
+                <form action="/filter" method="post">
+                    <input type="hidden" name="filter" value="rating">
+                    <button class="btn" type="submit">Rating</button>
+                </form>
+                <!-- Filter by date -->
+                <form action="/filter" method="post">
+                    <input type="hidden" name="filter" value="date">
+                    <button class="btn" type="submit">Read Date</button>
+                </form>
+            </div>
+            <div>
+                <p>Want to add a new book</p>
+                <a href="/search" class="btn"> Add a book</a>
+            </div>
         </div>
         <div id="books">
             <% if(locals.books) {%>
@@ -22,12 +44,12 @@
 
                                     <div class="details">
                                         <h1>
-                                            <%= element.title %>
+                                            <%= element.book_name %>
                                         </h1>
                                         <h3>Author Name: <%= element.author_name;%>
                                         </h3>
                                         <span>Published Year: <%= element.pub_date %></span>
-                                        <span>Date read: <%= element.date_read.toISOString().split('T')[0]; %>
+                                        <span>Date read: <%= element.date_read; %>
                                         </span>
                                         <form action="/viewnotes" method="post">
                                             <input type="hidden" name="notes" value=' <%=JSON.stringify(element) %>'>

@@ -116,6 +116,9 @@ const book = [{
     ],
     "ddc_sort": "158.5"
 }];
+pg.types.setTypeParser(pg.types.builtins.DATE, value => value)
+
+
 
 const db = new pg.Client({
     user: "postgres",
@@ -144,14 +147,14 @@ async function storebook(book) {
     } catch (error) {
         console.log(error);
     }
-}
+};
 
 async function get_books(filter) {
     var result;
     switch (filter) {
         case 'date':
             try {
-                result = await db.query("SELECT * FROM book JOIN notes ON book.id = notes.book_id ORDER BY notes.date_read DSC;");
+                result = await db.query("SELECT * FROM book JOIN notes ON book.id = notes.book_id ORDER BY notes.date_read DESC;");
                 return result.rows;
             } catch (error) {
                 console.log(error);
@@ -159,7 +162,7 @@ async function get_books(filter) {
             break;
         case 'rating':
             try {
-                result = await db.query("SELECT * FROM book JOIN notes ON book.id = notes.book_id ORDER BY notes.rating DSC;");
+                result = await db.query("SELECT * FROM book JOIN notes ON book.id = notes.book_id ORDER BY notes.user_rating DESC;");
                 return result.rows;
             } catch (error) {
                 console.log(error);
@@ -175,8 +178,13 @@ async function get_books(filter) {
             break;
     }
 
-}
+};
 
+
+async function delete_book(id, book_id) {
+    await db.query("DELETE FROM notes WHERE id = $1", [id]);
+    await db.query("DELETE FROM book WHERE id = $1", [book_id]);
+};
 
 
 app.get("/", async (req, res) => {
@@ -206,6 +214,19 @@ app.post("/addbook", async (req, res) => {
     //Once user click on add this book the book will be stored in the database.
     const added_book = await storebook(result);
     // console.log(added_book);
+    // const added_book = {
+    //     id: 4,
+    //     book_name: 'A Game of Thrones',
+    //     author_name: 'George R. R. Martin',
+    //     pub_date: 1996,
+    //     rating: 4.23064,
+    //     cover_i: 9269962,
+    //     summary: 'ITs a good book to read',
+    //     notes: '....some notes',
+    //     date_read: '2024-09-11',
+    //     user_rating: 3,
+    //     book_id: 12
+    // };
     res.render("addbook.ejs", { element: added_book });
 
     // console.log(result);
@@ -228,11 +249,53 @@ app.post("/notes", async (req, res) => {
     }
 });
 
-
+//viewing the notes
 app.post("/viewnotes", (req, res) => {
     const result = JSON.parse(req.body.notes);
-    console.log(result);
+    // console.log(result);
+    res.render("viewnotes.ejs", { element: result });
 });
+
+
+app.post("/filter", async (req, res) => {
+    const filter = req.body.filter;
+    if (filter === 'name') {
+        res.redirect("/");
+    } else {
+        const searchQuery = await get_books(filter);
+        console.log(searchQuery);
+        res.render("index.ejs", { books: searchQuery });
+    }
+});
+
+
+app.post("/update", (req, res) => {
+    const book = JSON.parse(req.body.book);
+    res.render("update.ejs", { element: book });
+});
+
+app.post("/update/:id", async (req, res) => {
+    const book = JSON.parse(req.body.book);
+    const updated_data = [
+        req.body.date || book.date_read,
+        req.body.rating || book.user_rating,
+        req.body.summary || book.summary,
+        req.body.notes || book.notes,
+        book.id
+    ];
+    try {
+        await db.query("UPDATE notes SET date_read = $1, user_rating = $2, summary = $3, notes = $4 WHERE id = $5;", updated_data);
+    } catch (error) {
+        console.log(error);
+    }
+    res.redirect("/");
+})
+
+app.post("/delete", async (req, res) => {
+    const book = JSON.parse(req.body.book);
+    await delete_book(book.id, book.book_id);
+    res.redirect("/");
+})
 
 
 app.listen(port, () => {

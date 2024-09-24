@@ -1,0 +1,47 @@
+<%- include("partials/header.ejs") %>
+    <div class="notespage">
+        <div class="view">
+            <% if(element.cover_i) { %>
+                <span> <img src="https://covers.openlibrary.org/b/id/ <%= element.cover_i %> -M.jpg" alt="Book
+                    Cover
+                    image"> </span>
+                <% } else { %>
+                    <span> <img src="./images/avatar_book.png" alt="Book
+                        Cover
+                        image"> </span>
+                    <% } %>
+                        <div class="side-details">
+                            <h1>
+                                <%= element.book_name %>
+                            </h1>
+                            <span>
+                                Date read: <%= element.date_read%></span>
+                            <div id="summary">
+                                <p>
+                                    <%- element.summary %>
+                                </p>
+                            </div>
+                            <div class="buttons">
+                                <form action="/update" method="post">
+                                    <input type="hidden" name="book" value="<%= JSON.stringify(element) %>">
+                                    <button class="btn">Update Notes</button>
+                                </form>
+                                <form action="/delete" method="post">
+                                    <input type="hidden" name="book" value="<%= JSON.stringify(element) %>">
+                                    <button class="btn">Delete Notes</button>
+                                </form>
+                            </div>
+                        </div>
+        </div>
+
+
+        <div id="notes">
+            <h1>MY NOTES</h1>
+
+            <%- element.notes %>
+
+        </div>
+    </div>
+
+
+    <%- include("partials/footer.ejs") %>
